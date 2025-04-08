@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+}
+.icon {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  color: #fff;
+  cursor: pointer;
+}
