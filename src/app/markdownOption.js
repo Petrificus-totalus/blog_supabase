@@ -40,7 +40,10 @@ const markdownOptions = {
           src={src}
           alt={alt}
           style={{
-            maxWidth: "40%",
+            display: "block",
+            width: "100%",
+            maxWidth: "600px",
+
             height: "auto",
           }}
         />

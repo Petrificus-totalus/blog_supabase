@@ -1,0 +1,121 @@
+.wrapper {
+  position: relative;
+  padding: 60px 10vw;
+  background: linear-gradient(to bottom right, #ffeef2, #e5f8ff);
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #c94b7d;
+  margin-bottom: 15px;
+}
+
+.header p {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.header a {
+  color: #49bfb3;
+  text-decoration: underline;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  display: inline-block;
+  margin-bottom: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 100%;
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+/* 渐显动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🌸 花瓣动画层 */
+.petalLayer::before {
+  content: "🌸🌸🌸";
+  position: absolute;
+  font-size: 30px;
+  animation: fall 10s linear infinite;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.6;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateX(-50%) translateY(-10%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(120vh) rotate(360deg);
+  }
+}
+
+.masonry {
+  column-count: 3;
+  column-gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+@media (max-width: 600px) {
+  .masonry {
+    column-count: 1;
+  }
+}
+
+/* 高度根据图片方向微调（可选） */
+.portrait img {
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.landscape img {
+  max-height: 300px;
+  object-fit: cover;
+}

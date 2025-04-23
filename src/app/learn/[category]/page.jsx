@@ -36,7 +36,7 @@ export default function LearnByCategory() {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>📚 分类: {category}</h1>
+      <h1>分类: {category}</h1>
       {learnItems.length === 0 ? (
         <p>没有找到该分类的学习资源。</p>
       ) : (
