@@ -13,22 +13,37 @@ export default function VerticalNavbar() {
   return (
     <div className={styles.navbarContainer}>
       <div className={styles.sidebar}>
-        <Link href="/flower" className={styles.iconItem} title="Flower">
-          🌸
-        </Link>
-        <Link href="/cook" className={styles.iconItem} title="Cook">
-          🍳
-        </Link>
-        <Link href="/spend" className={styles.iconItem} title="Spend">
-          💰
-        </Link>
-        <span
-          onClick={handleToggleLearn}
-          className={styles.iconItem}
-          title="Learn"
-        >
-          📚
-        </span>
+        <div className={styles.iconWrapper}>
+          <Link href="/flower" className={styles.iconItem} title="Flower">
+            🌸
+          </Link>
+          <div className={styles.tooltip}>Beautiful flowers I delivered</div>
+        </div>
+
+        <div className={styles.iconWrapper}>
+          <Link href="/cook" className={styles.iconItem} title="Cook">
+            🍳
+          </Link>
+          <div className={styles.tooltip}>I’m so hungry... I wanna eat!</div>
+        </div>
+
+        <div className={styles.iconWrapper}>
+          <Link href="/spend" className={styles.iconItem} title="Spend">
+            💰
+          </Link>
+          <div className={styles.tooltip}>Where all my money goes</div>
+        </div>
+
+        <div className={styles.iconWrapper}>
+          <span
+            onClick={handleToggleLearn}
+            className={styles.iconItem}
+            title="Learn"
+          >
+            📚
+          </span>
+          <div className={styles.tooltip}>Live and learn</div>
+        </div>
       </div>
 
       {showLearnMenu && (
@@ -39,7 +54,7 @@ export default function VerticalNavbar() {
             onClick={() => setShowLearnMenu(false)}
           >
             <h4>Java</h4>
-            <p>记录 Java 学习笔记</p>
+            <p>Java study notes</p>
           </Link>
           <Link
             href="/learn/algorithm"
@@ -47,7 +62,7 @@ export default function VerticalNavbar() {
             onClick={() => setShowLearnMenu(false)}
           >
             <h4>Algorithm</h4>
-            <p>刷题总结、思路分析</p>
+            <p>Problem solving & analysis</p>
           </Link>
           <Link
             href="/learn/css"
@@ -55,7 +70,7 @@ export default function VerticalNavbar() {
             onClick={() => setShowLearnMenu(false)}
           >
             <h4>CSS</h4>
-            <p>关于样式的技巧整理</p>
+            <p>Styling tricks & tips</p>
           </Link>
         </div>
       )}

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { fetchLearnByCategory } from "@/lib/learnApi";
+import styles from "./category.module.css";
 
 export default function LearnByCategory() {
   const params = usePathname();
@@ -25,40 +26,36 @@ export default function LearnByCategory() {
         setLoading(false);
       }
     };
-
     loadLearn();
   }, [category]);
+
   const showDetail = (id) => {
     router.push(`/learn/item/${id}`);
   };
 
-  if (loading) return <p>Loading...</p>;
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>分类: {category}</h1>
-      {learnItems.length === 0 ? (
-        <p>没有找到该分类的学习资源。</p>
+    <div className={styles.container}>
+      <h1 className={styles.title}>{category.toUpperCase()}</h1>
+      {loading ? (
+        <div className={styles.loader}></div>
+      ) : learnItems.length === 0 ? (
+        <p className={styles.empty}>No learning resources found.</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <div className={styles.grid}>
           {learnItems.map((item) => (
-            <li
+            <div
               key={item.id}
-              style={{
-                border: "1px solid #ddd",
-                marginBottom: "1rem",
-                padding: "1rem",
-                borderRadius: "6px",
-              }}
+              className={styles.card}
               onClick={() => showDetail(item.id)}
             >
               <h2>{item.title}</h2>
               <p>
-                <strong>描述:</strong> {item.des?.join(", ")}
+                <strong>Description:</strong>{" "}
+                {item.des?.length > 0 ? item.des.join(", ") : "No description"}
               </p>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
