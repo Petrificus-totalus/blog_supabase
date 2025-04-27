@@ -1,10 +1,121 @@
 .container {
   position: relative;
+  background: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 12px rgba(255, 255, 255, 0.05);
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "FiraCodeBold", monospace;
 }
+
+.container pre {
+  margin: 0;
+  padding: 2.5rem 1rem 1rem !important;
+  background: transparent !important;
+  font-size: 0.85em;
+  line-height: 1.6;
+}
+
+/* 顶部渐变色装饰条 */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 72, 72, 0.3) 0%,
+    rgba(255, 181, 72, 0.3) 33%,
+    rgba(72, 255, 108, 0.3) 66%,
+    rgba(72, 144, 255, 0.3) 100%
+  );
+  filter: blur(8px);
+  opacity: 0.2;
+}
+
+/* 语言标签 */
+.languageLabel {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 2;
+  cursor: default;
+}
+
+/* 复制按钮 */
 .icon {
   position: absolute;
   right: 1rem;
   top: 1rem;
-  color: #fff;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
   cursor: pointer;
+}
+
+.icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.icon:hover svg {
+  transform: translateY(-2px);
+}
+
+/* 按钮图标样式 */
+.icon svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+/* 复制成功状态 */
+.icon[data-copied="true"] {
+  background: rgba(0, 255, 136, 0.15);
+  width: auto;
+  padding: 0 12px;
+}
+
+/* 复制成功文字 */
+.copiedText {
+  color: #00ff88 !important;
+  font-size: 0.9em !important;
+  font-weight: bold;
+  animation: fadeIn 0.3s ease;
+}
+
+/* 文字渐现动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 行号样式 */
+pre code .linenumber {
+  color: rgba(255, 255, 255, 0.3) !important;
+  padding-right: 1.5em !important;
+  user-select: none;
 }

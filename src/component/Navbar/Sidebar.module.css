@@ -1,23 +1,23 @@
 .navbarContainer {
-  display: flex;
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
+  display: flex;
   z-index: 100;
 }
 
 .sidebar {
-  width: 60px;
-  background: linear-gradient(180deg, #1e1e1e, #292929);
-  color: white;
+  width: 70px;
+  background: rgba(20, 20, 30, 0.9);
+  backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
-  border-right: 1px solid #444;
-  gap: 30px;
-  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+  padding-top: 30px;
+  border-right: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 4px 0 20px rgba(0, 255, 255, 0.1);
+  gap: 40px;
 }
 
 .iconWrapper {
@@ -27,29 +27,73 @@
 }
 
 .iconItem {
-  font-size: 24px;
+  color: #ffffff;
+  font-size: 28px;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.iconItem img {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.1),
+    transparent 70%
+  );
+  padding: 6px;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.iconItem:hover img {
+  transform: scale(1.25) rotate(5deg);
+  filter: drop-shadow(0 0 10px #49bfb3) brightness(1.2);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2), 0 0 10px #f9b625,
+    0 0 20px #49bfb3;
 }
 
 .iconItem:hover {
-  transform: scale(1.3);
+  transform: scale(1.2);
+}
+
+.icon {
+  filter: drop-shadow(0 0 5px #49bfb3);
+  transition: all 0.4s ease;
+}
+
+.iconItem:hover .icon {
+  filter: drop-shadow(0 0 10px #f9b625);
 }
 
 .tooltip {
   position: absolute;
-  left: 60px;
+  left: 75px;
   white-space: nowrap;
-  background: linear-gradient(to right, #f9b625, #49bfb3);
+  background: linear-gradient(to right, #49bfb3, #f9b625);
   color: #fff;
-  padding: 8px 14px;
+  padding: 8px 16px;
   border-radius: 30px 20px 20px 30px;
   opacity: 0;
   transform: translateX(-10px);
   transition: all 0.3s ease;
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  font-family: "WinkyRoughRegular";
 }
 
 .iconWrapper:hover .tooltip {
@@ -59,34 +103,36 @@
 
 .learnMenu {
   width: 240px;
-  background-color: #fefefe;
+  background-color: #121212;
+  color: #fff;
   padding: 20px;
   animation: slideIn 0.3s ease-out;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.4);
 }
 
 .learnItem {
   display: block;
   text-decoration: none;
-  color: #333;
+  color: #ccc;
   margin-bottom: 20px;
   transition: all 0.2s ease-in-out;
 }
 
 .learnItem:hover {
   transform: translateX(5px);
+  color: #49bfb3;
 }
 
 .learnItem h4 {
-  margin: 0 0 5px 0;
+  margin: 0 0 6px 0;
   font-size: 16px;
-  color: #283f7f;
+  color: #f9b625;
 }
 
 .learnItem p {
   margin: 0;
   font-size: 14px;
-  color: #666;
+  color: #aaa;
 }
 
 @keyframes slideIn {

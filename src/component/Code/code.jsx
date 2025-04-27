@@ -17,11 +17,7 @@ export default function Code({ children, ...props }) {
   }, [copied]);
 
   useEffect(() => {
-    if (props["language"]) {
-      setLanguage(props["language"]);
-    } else if (props["className"]) {
-      setLanguage(props["className"].replace("lang-", ""));
-    }
+    setLanguage(props["className"].replace("lang-", ""));
   }, []);
 
   const handleCopy = async () => {
@@ -35,10 +31,22 @@ export default function Code({ children, ...props }) {
 
   return (
     <div className={styles.container}>
-      <span className={styles.icon} onClick={handleCopy}>
-        {copied ? "copied" : <CopyIcon />}
+      <span className={styles.icon} onClick={handleCopy} data-copied={copied}>
+        {!copied && <CopyIcon />}
+        {copied && <span className={styles.copiedText}>Copied!</span>}
       </span>
-      <SyntaxHighlighter language={language} style={tomorrow}>
+      {language && <span className={styles.languageLabel}>{language}</span>}
+      <SyntaxHighlighter
+        language={language}
+        style={tomorrow}
+        showLineNumbers
+        lineNumberStyle={{
+          color: "rgba(255,255,255,0.3)",
+          paddingRight: "1.5em",
+        }}
+        wrapLines
+        lineProps={{ style: { transition: "all 0.3s" } }}
+      >
         {children}
       </SyntaxHighlighter>
     </div>

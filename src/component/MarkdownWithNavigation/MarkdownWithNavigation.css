@@ -1,0 +1,91 @@
+.markdown-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem 8rem; /* 给左边空出空间 */
+  position: relative;
+}
+
+.scroll-nav {
+  position: fixed;
+  top: 20%;
+  left: 70px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 200;
+
+  padding: 1rem;
+
+  width: 180px;
+}
+.nav-item {
+  position: relative;
+  padding: 0.6rem 1rem;
+  color: #333; /* 深灰黑 */
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #000;
+  transform: scale(1.02);
+}
+.nav-item.active {
+  background: rgba(0, 0, 0, 0.08);
+  color: #000;
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 #000; /* 左边黑色小高光条 */
+}
+
+.nav-highlight {
+  display: none; /* 简洁版，不需要单独highlight条了 */
+}
+
+.markdown-content {
+  flex: 1;
+  padding-left: 3rem;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.md-heading {
+  position: relative;
+  margin: 2em 0 1.2em;
+  padding-bottom: 0.4em;
+  border-bottom: 2px solid #333;
+  scroll-margin-top: 100px;
+}
+
+.anchor-link {
+  position: absolute;
+  left: -1.5em;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: #00e5ff;
+  text-decoration: none;
+}
+
+.md-heading:hover .anchor-link {
+  opacity: 1;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .markdown-container {
+    padding: 1rem;
+  }
+
+  .scroll-nav {
+    display: none;
+  }
+
+  .markdown-content {
+    padding-left: 0;
+  }
+}

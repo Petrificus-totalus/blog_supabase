@@ -40,3 +40,38 @@ a {
     color-scheme: dark;
   }
 }
+
+@font-face {
+  font-family: "WinkyRoughRegular";
+  src: url("/font/static/WinkyRough-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "WinkyRoughMedium";
+  src: url("/font/static/WinkyRough-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "WinkyRoughBold";
+  src: url("/font/static/WinkyRough-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraCodeMedium";
+  src: url("/font/static/FiraCode-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraCodeBold";
+  src: url("/font/static/FiraCode-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

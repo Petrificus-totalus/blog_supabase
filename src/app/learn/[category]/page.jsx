@@ -49,10 +49,16 @@ export default function LearnByCategory() {
               onClick={() => showDetail(item.id)}
             >
               <h2>{item.title}</h2>
-              <p>
-                <strong>Description:</strong>{" "}
-                {item.des?.length > 0 ? item.des.join(", ") : "No description"}
-              </p>
+
+              {item.des?.length > 0 ? (
+                item.des.map((text, index) => (
+                  <div key={index} style={{ "--delay": `${index * 0.1}s` }}>
+                    {text}
+                  </div>
+                ))
+              ) : (
+                <div style={{ "--delay": "0s" }}>No description</div>
+              )}
             </div>
           ))}
         </div>

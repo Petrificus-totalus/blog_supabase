@@ -2,17 +2,14 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { fetchLearnById } from "@/lib/learnApi";
-import markdownOptions from "@/app/markdownOption";
-import Markdown from "markdown-to-jsx";
-import Code from "@/component/Code/code";
+import MarkdownWithNavigation from "@/component/MarkdownWithNavigation/MarkdownWithNavigation";
 
 export default function LearnById() {
   const params = usePathname();
-
   const parts = params.split("/");
   const id = parts[parts.length - 1];
 
-  const [learnItems, setLearnItem] = useState([]);
+  const [learnItem, setLearnItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,8 +17,7 @@ export default function LearnById() {
       if (!id) return;
       try {
         const data = await fetchLearnById(id);
-        setLearnItem(data);
-        console.log(data);
+        setLearnItem(data?.[0] || null);
       } catch (err) {
         console.error(err);
       } finally {
@@ -32,36 +28,48 @@ export default function LearnById() {
     loadLearn();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <p style={{ textAlign: "center", marginTop: "4rem", fontSize: "1.2rem" }}>
+        Loading...
+      </p>
+    );
+
+  if (!learnItem) {
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: "4rem",
+          fontSize: "1.2rem",
+          color: "#777",
+        }}
+      >
+        没有找到该分类的学习资源。
+      </div>
+    );
+  }
 
   return (
-    <div style={{ padding: "2rem" }}>
-      {learnItems.length === 0 ? (
-        <p>没有找到该分类的学习资源。</p>
-      ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {learnItems.map((item) => (
-            <li
-              key={item.id}
-              style={{
-                border: "1px solid #ddd",
-                marginBottom: "1rem",
-                padding: "1rem",
-                borderRadius: "6px",
-              }}
-            >
-              <h2>{item.title}</h2>
-              <p>
-                <strong>描述:</strong> {item.des?.join(", ")}
-              </p>
-              <div>
-                <strong>内容:</strong>
-                <Markdown options={markdownOptions}>{item.content}</Markdown>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div>
+      <h1
+        style={{
+          fontSize: "2.4rem",
+          color: "#222",
+          textAlign: "center",
+          fontWeight: "bold",
+          letterSpacing: "0.5px",
+        }}
+      >
+        {learnItem.title}
+      </h1>
+
+      <div style={{ borderTop: "1px solid #eee" }}>
+        <MarkdownWithNavigation
+          mdContent={learnItem.content}
+          headings={learnItem.des}
+        />
+      </div>
     </div>
   );
 }
