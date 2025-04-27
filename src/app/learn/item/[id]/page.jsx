@@ -17,6 +17,8 @@ export default function LearnById() {
       if (!id) return;
       try {
         const data = await fetchLearnById(id);
+        console.log(data);
+
         setLearnItem(data?.[0] || null);
       } catch (err) {
         console.error(err);
