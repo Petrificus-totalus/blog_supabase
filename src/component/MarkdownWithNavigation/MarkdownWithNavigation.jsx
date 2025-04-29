@@ -14,7 +14,7 @@ const generateHeadingId = (text) => {
     .replace(/^-|-$/g, "");
 };
 
-const MarkdownWithNavigation = ({ mdContent, headings = [] }) => {
+const MarkdownWithNavigation = ({ mdContent, headings = [], title }) => {
   const [activeId, setActiveId] = useState("");
   const observerRef = useRef(null);
 
@@ -97,6 +97,16 @@ const MarkdownWithNavigation = ({ mdContent, headings = [] }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
+        {title && (
+          <motion.h1
+            className="page-title"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {title}
+          </motion.h1>
+        )}
         <Markdown
           options={{
             ...markdownOption,

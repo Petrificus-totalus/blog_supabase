@@ -1,19 +1,69 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/supabaseClient";
 import styles from "./flower.module.css";
 
+const PAGE_SIZE = 10; // 每次加载10张
+
 export default function FlowerGallery() {
   const [flowers, setFlowers] = useState([]);
-  const [orients, setOrients] = useState({}); // id => "portrait" | "landscape"
+  const [page, setPage] = useState(0); // 当前加载到第几页
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // 是否还有更多数据
+  const [orients, setOrients] = useState({});
+
+  const observer = useRef();
+
+  // 加载一页花图
+  const fetchFlowers = useCallback(async () => {
+    setLoading(true);
+    const from = page * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    let { data, error } = await supabase
+      .from("flower")
+      .select("*")
+      .order("id", { ascending: true })
+      .range(from, to);
+    if (!error) {
+      setFlowers((prev) => [...prev, ...data]);
+      if (data.length < PAGE_SIZE) setHasMore(false); // 如果这次返回数量不足一页，说明到底了
+    }
+    setLoading(false);
+  }, [page]);
 
   useEffect(() => {
-    async function fetchFlowers() {
-      let { data, error } = await supabase.from("flower").select("*");
-      if (!error) setFlowers(data);
-    }
     fetchFlowers();
-  }, []);
+  }, [fetchFlowers]);
+
+  const lastFlowerRef = useRef();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!hasMore) return;
+
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+
+    const callback = (entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    };
+
+    const observerInstance = new IntersectionObserver(callback, options);
+    if (lastFlowerRef.current) {
+      observerInstance.observe(lastFlowerRef.current);
+    }
+
+    return () => {
+      if (lastFlowerRef.current) {
+        observerInstance.unobserve(lastFlowerRef.current);
+      }
+    };
+  }, [loading, hasMore]);
 
   const handleImageLoad = (e, id) => {
     const { naturalWidth, naturalHeight } = e.target;
@@ -36,16 +86,15 @@ export default function FlowerGallery() {
           <a href="https://www.mrroses.com.au" target="_blank">
             Mr Roses
           </a>
-          . Each bouquet was carefully selected and wrapped with love. Seeing
-          these beautiful blooms always lifts my spirits — I hope they brought
-          the same joy to the people who received them 🌷
+          . Each bouquet was carefully selected and wrapped with love...
         </p>
       </div>
 
       <div className={styles.masonry}>
-        {flowers.map((flower) => (
+        {flowers.map((flower, idx) => (
           <div
             key={flower.id}
+            ref={idx === flowers.length - 1 ? lastFlowerRef : null} // 最后一个元素加上ref
             className={`${styles.card} ${
               orients[flower.id] === "portrait"
                 ? styles.portrait
@@ -60,6 +109,10 @@ export default function FlowerGallery() {
           </div>
         ))}
       </div>
+
+      {loading && (
+        <p style={{ textAlign: "center", marginTop: "1rem" }}>Loading...</p>
+      )}
     </div>
   );
 }

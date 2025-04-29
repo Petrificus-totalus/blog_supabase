@@ -17,7 +17,6 @@ export default function LearnById() {
       if (!id) return;
       try {
         const data = await fetchLearnById(id);
-        console.log(data);
 
         setLearnItem(data?.[0] || null);
       } catch (err) {
@@ -54,20 +53,9 @@ export default function LearnById() {
 
   return (
     <div>
-      <h1
-        style={{
-          fontSize: "2.4rem",
-          color: "#222",
-          textAlign: "center",
-          fontWeight: "bold",
-          letterSpacing: "0.5px",
-        }}
-      >
-        {learnItem.title}
-      </h1>
-
       <div style={{ borderTop: "1px solid #eee" }}>
         <MarkdownWithNavigation
+          title={learnItem.title}
           mdContent={learnItem.content}
           headings={learnItem.des}
         />
