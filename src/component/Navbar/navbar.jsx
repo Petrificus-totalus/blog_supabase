@@ -28,6 +28,13 @@ export default function VerticalNavbar() {
         </div>
 
         <div className={styles.iconWrapper}>
+          <Link href="/projects" className={styles.iconItem}>
+            <img src="/projects.png" alt="projects" />
+          </Link>
+          <div className={styles.tooltip}>Websites I developed</div>
+        </div>
+
+        <div className={styles.iconWrapper}>
           <Link href="/cook" className={styles.iconItem}>
             <img src="/cook.png" alt="cook" />
           </Link>

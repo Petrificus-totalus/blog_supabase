@@ -26,6 +26,8 @@ export default function FlowerGallery() {
       .range(from, to);
     if (!error) {
       setFlowers((prev) => [...prev, ...data]);
+      console.log(data);
+
       if (data.length < PAGE_SIZE) setHasMore(false); // 如果这次返回数量不足一页，说明到底了
     }
     setLoading(false);

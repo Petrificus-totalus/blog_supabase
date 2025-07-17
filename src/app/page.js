@@ -19,10 +19,9 @@ export default function Home() {
           transition={{ duration: 1 }}
         >
           <h1 className={styles.title}>
-            Hi, I'm&nbsp;
             <span className={styles.typewriter}>
               <Typewriter
-                words={["Your Name", "An Explorer", "A Dreamer"]}
+                words={[" Hi, I'm Nanhao", "A Web Developer"]}
                 loop={true}
                 cursor
                 cursorStyle="_"
@@ -39,20 +38,20 @@ export default function Home() {
         </motion.div>
 
         <Section id="learn" title="My Learning Journey">
-          <p>写你的学习背景、学校、专业、学到的技能...</p>
+          <p>My Learning Journey...</p>
         </Section>
 
         <Section title="My Cooking">
-          <p>分享你做的菜肴、烘焙、生活记录...</p>
+          <p>My Cooking...</p>
         </Section>
 
         <Section title="My Projects">
-          <p>列出你开发的应用、小项目、网站等等...</p>
+          <p>My Projects...</p>
         </Section>
 
         {/* 花艺页面 */}
         <Section title="Flowers I've Delivered">
-          <p>分享你的花艺照片、经历、链接到花艺页...</p>
+          <p>Flowers I've Delivered...</p>
         </Section>
       </main>
     </div>

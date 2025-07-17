@@ -1,0 +1,139 @@
+/* ProjectCard.module.css */
+.card {
+  position: relative;
+  width: 280px;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36), 0 0 16px rgba(159, 88, 150, 0.12);
+  color: #fff;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03) rotateX(5deg) rotateY(-5deg);
+  box-shadow: 0 12px 40px rgba(159, 88, 150, 0.24),
+    0 0 24px rgba(231, 142, 255, 0.2);
+}
+
+/* 动态粒子背景 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+      circle at 70% 30%,
+      rgba(226, 170, 199, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      rgba(178, 102, 136, 0.1) 0%,
+      transparent 50%
+    );
+  animation: rotateParticles 20s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotateParticles {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 图片容器 */
+.coverContainer {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .cover {
+  transform: scale(1.1);
+}
+
+/* 霓虹圆点 */
+.dot {
+  position: absolute;
+  left: -1.8rem;
+  top: 1.5rem;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #ff9ff3, #f368e0);
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff9ff3, 0 0 24px rgba(255, 159, 243, 0.4);
+  animation: pulse 2s infinite alternate, float 4s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0.7;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* 文字效果 */
+.meta {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.content h3 {
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 159, 243, 0.6),
+    0 0 16px rgba(255, 159, 243, 0.3);
+  transition: text-shadow 0.3s ease;
+}
+
+.card:hover .content h3 {
+  text-shadow: 0 0 12px rgba(255, 159, 243, 0.8),
+    0 0 24px rgba(255, 159, 243, 0.4);
+}
+
+.content p {
+  margin: 0;
+  color: #bbb;
+  font-size: 1rem;
+}

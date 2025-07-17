@@ -1,0 +1,39 @@
+/* components/ui/FancyCard.module.css */
+
+.card {
+  background: linear-gradient(145deg, #ffffff, #e0f7fa);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(0, 200, 255, 0.15);
+  border: 1px solid rgba(0, 180, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 200, 255, 0.3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header h3 {
+  font-size: 1.4rem;
+  color: #0b355d;
+  margin: 0;
+}
+
+.total {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #007cf0;
+}
+
+.content {
+  padding-top: 12px;
+}

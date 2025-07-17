@@ -1,0 +1,21 @@
+/* components/ui/FancyTag.module.css */
+
+.tag {
+  display: inline-block;
+  background: linear-gradient(120deg, #74ebd5, #acb6e5);
+  color: #1b1b1b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin: 2px;
+  box-shadow: 0 2px 6px rgba(0, 200, 255, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 200, 255, 0.35);
+}

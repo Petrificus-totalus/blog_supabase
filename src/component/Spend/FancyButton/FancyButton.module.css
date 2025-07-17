@@ -1,0 +1,27 @@
+/* components/ui/FancyButton.module.css */
+
+.button {
+  background: linear-gradient(135deg, #00f0ff, #7afcff);
+  border: none;
+  color: #1a1a1a;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.6);
+}
+
+.small {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+}

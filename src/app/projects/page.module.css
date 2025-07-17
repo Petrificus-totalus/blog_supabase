@@ -1,0 +1,252 @@
+/* ProjectTimeline.module.css */
+.container {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #1a1a2e, transparent),
+    radial-gradient(ellipse at bottom, #16213e, #0f0f1a);
+  background-color: #0f0f1a;
+  color: #fff;
+  padding: 0 12rem;
+  position: relative;
+  overflow: auto;
+}
+
+/* 星空背景 */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 2%
+    ),
+    radial-gradient(
+      circle at 90% 60%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 2%
+    ),
+    radial-gradient(
+      circle at 30% 80%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 2%
+    );
+  background-size: 200px 200px;
+  z-index: 0;
+}
+
+.header {
+  text-align: center;
+  padding: 4rem 0 6rem;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #ffffff, #e2aac7, #b26688);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.03em;
+}
+
+.highlight {
+  text-shadow: 0 0 20px rgba(226, 170, 199, 0.7);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.timelineWrapper {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 400px;
+}
+
+.timeline {
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 120%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #e2aac7, transparent);
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 1s ease, left 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.timeline.visible {
+  opacity: 1;
+  left: 0;
+}
+
+/* 时间轴箭头 */
+.arrowHead {
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 20px solid #e2aac7;
+  filter: drop-shadow(0 0 8px rgba(226, 170, 199, 0.8));
+}
+
+.line {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #e2aac7);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline.visible .line {
+  transform: scaleX(1);
+}
+
+/* 粒子效果 */
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #e2aac7;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 2px rgba(226, 170, 199, 0.8);
+  opacity: 0;
+  animation: floatParticle 3s infinite;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(-20px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+.timeline.visible .particle {
+  opacity: 0.7;
+}
+
+/* 时间轴节点 */
+.timelineNodes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.node {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.node.active {
+  opacity: 1;
+}
+
+.nodeDot {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #ff9ff3, #f368e0);
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff9ff3;
+  transition: transform 0.3s ease;
+}
+
+.node:hover .nodeDot {
+  transform: scale(1.5);
+}
+
+.nodeLabel {
+  position: absolute;
+  top: -40px;
+  font-size: 0.85rem;
+  color: #ccc;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.node:hover .nodeLabel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 项目卡片容器 */
+.projects {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.projectWrapper {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 2;
+}
+
+.projectWrapper.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.projectWrapper:nth-child(odd) {
+  transform: translate(-50%, calc(-50% - 120px));
+}
+
+.projectWrapper:nth-child(even) {
+  transform: translate(-50%, calc(-50% + 120px));
+}
+
+.projectWrapper.visible:nth-child(odd) {
+  transform: translate(-50%, calc(-50% - 120px)) scale(1);
+}
+
+.projectWrapper.visible:nth-child(even) {
+  transform: translate(-50%, calc(-50% + 120px)) scale(1);
+}
