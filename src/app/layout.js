@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import VerticalNavbar from "@/component/Navbar/navbar";
+import Favicon from "/public/favicon.webp";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "My Blog",
-  description: "My Blog",
+  title: "Kim",
+  description: "Kim's blog",
+  icons: [{ rel: "icon", url: Favicon.src }],
 };
 
 export default function RootLayout({ children }) {

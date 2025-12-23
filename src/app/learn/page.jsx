@@ -170,20 +170,45 @@ export default function NotesPage() {
             ) : (
               notes.map((n) => (
                 <article key={n.id} className={styles.card}>
-                  <div className={styles.bar} />
+                  <div className={styles.bar} aria-hidden="true" />
+
                   <div className={styles.body}>
-                    <div className={styles.top}>
-                      <h2>{n.title}</h2>
-                      <time>{formatDate(n.created_at)}</time>
-                    </div>
+                    <header className={styles.header}>
+                      <span
+                        className={`${styles.badge} ${
+                          styles[
+                            `badge_${(n.category || "").replace(/\s+/g, "_")}`
+                          ]
+                        }`}
+                      >
+                        {n.category}
+                      </span>
+
+                      <time className={styles.date}>
+                        {formatDate(n.created_at)}
+                      </time>
+                    </header>
+
+                    <h2 className={styles.cardTitle}>{n.title}</h2>
 
                     <ul className={styles.summary}>
-                      {(n.summary_lines || []).map((t, i) => (
-                        <li key={i}>
-                          <a href={`/notes/${n.id}#s-${i + 1}`}>{t}</a>
+                      {(n.summary_lines || []).slice(0, 4).map((t, i) => (
+                        <li key={i} className={styles.summaryItem}>
+                          <a
+                            className={styles.summaryLink}
+                            href={`/notes/${n.id}#s-${i + 1}`}
+                          >
+                            {t}
+                          </a>
                         </li>
                       ))}
                     </ul>
+
+                    {(n.summary_lines || []).length > 4 ? (
+                      <div className={styles.more}>
+                        +{n.summary_lines.length - 4} more
+                      </div>
+                    ) : null}
                   </div>
                 </article>
               ))
