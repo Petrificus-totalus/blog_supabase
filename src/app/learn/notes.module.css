@@ -377,6 +377,61 @@
   text-decoration: underline;
 }
 
+/* 顶部只显示主标签 */
+.primaryTag {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  background: #eef6ff; /* 只给主标签一点点强调 */
+  border: 1px solid rgba(43, 111, 183, 0.18);
+  color: #2b6fb7;
+  white-space: nowrap;
+}
+
+/* summary 下方的“剩余标签区” */
+.extraTags {
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.extraTagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 剩余标签：统一灰色，不分彩 */
+.extraTag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 800;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* 让卡片顶部行更稳（如果你之前没加过） */
+.cardTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
 @media (min-width: 1200px) {
   .shell {
     padding: 34px 36px;

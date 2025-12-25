@@ -35,35 +35,8 @@ const SUB_TABS = {
 /** 同标签同颜色（你写死） */
 const TAG_STYLE = {
   Algorithm: "tagGreen",
-  Greedy: "tagGreen",
-  Backtracking: "tagGreen",
-  DynamicP: "tagGreen",
-  "Two Pointers": "tagGreen",
-  "Binary Search": "tagGreen",
-  "Sliding Window": "tagGreen",
-
-  "Data Structure": "tagBrown",
-  Array: "tagBrown",
-  List: "tagBrown",
-  Tree: "tagBrown",
-  Graph: "tagBrown",
-  Stack: "tagBrown",
-  Queue: "tagBrown",
-  "Hash Map": "tagBrown",
-
   CSS: "tagBlue",
-  Grid: "tagBlue",
-  Flex: "tagBlue",
-  Layout: "tagBlue",
-  Animation: "tagBlue",
-  Responsive: "tagBlue",
-
   JS: "tagPurple",
-  Async: "tagPurple",
-  Promise: "tagPurple",
-  Closure: "tagPurple",
-  "Array Methods": "tagPurple",
-  DOM: "tagPurple",
 };
 
 function formatDate(iso) {
@@ -236,7 +209,7 @@ export default function NotesPage() {
             {debouncedKeyword.trim()
               ? ` · Search: “${debouncedKeyword.trim()}”`
               : ""}
-            {" · "}共 {total} 条
+            {" · "} {total} results
           </span>
 
           <div className={styles.pagerBtns}>
@@ -268,21 +241,24 @@ export default function NotesPage() {
                   <div className={styles.bar} aria-hidden="true" />
 
                   <div className={styles.body}>
-                    {/* 顶部一行：多标签 + 日期 */}
+                    {/* 顶部：只显示第一个标签 + 日期 */}
                     <div className={styles.cardTopRow}>
-                      <div className={styles.tagRow}>
-                        {(n.tags || []).map((tag) => {
-                          const cls = TAG_STYLE[tag] || "tagDefault";
-                          return (
-                            <span
-                              key={tag}
-                              className={`${styles.tag} ${styles[cls]}`}
-                            >
-                              {tag}
-                            </span>
-                          );
-                        })}
-                      </div>
+                      {(() => {
+                        const mainTag =
+                          Array.isArray(n.tags) && n.tags.length
+                            ? n.tags[0]
+                            : "General";
+                        const colorCls = TAG_STYLE[mainTag] || "tagDefault";
+
+                        return (
+                          <span
+                            className={`${styles.badge} ${styles[colorCls]}`}
+                          >
+                            {mainTag}
+                          </span>
+                        );
+                      })()}
+
                       <time className={styles.date}>
                         {formatDate(n.created_at)}
                       </time>
@@ -303,9 +279,16 @@ export default function NotesPage() {
                       ))}
                     </ul>
 
-                    {(n.summary_lines || []).length > 4 ? (
-                      <div className={styles.more}>
-                        +{n.summary_lines.length - 4} more
+                    {/* summary 下方：显示剩余标签（不加颜色） */}
+                    {Array.isArray(n.tags) && n.tags.length > 1 ? (
+                      <div className={styles.extraTags}>
+                        <div className={styles.extraTagsList}>
+                          {n.tags.slice(1).map((tag) => (
+                            <span key={tag} className={styles.extraTag}>
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     ) : null}
                   </div>
