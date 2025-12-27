@@ -55,54 +55,49 @@ export default function NoteDetailPage() {
   useEffect(() => {
     if (!toc.length) return;
 
-    // 清理旧 observer
-    observerRef.current?.disconnect();
+    let ticking = false;
 
-    let rafId = 0;
+    const getActive = () => {
+      // 找到所有 toc 对应的 h2 元素
+      const items = toc
+        .map(({ id }) => document.getElementById(id))
+        .filter(Boolean);
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        // 选出当前最“可见”的那一个 heading
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (items.length === 0) return;
 
-        if (!visible) return;
+      // 顶部偏移（你有 sticky toc/可能还有 header，就给一点缓冲）
+      const OFFSET = 110;
 
-        // 用 rAF 合并多次回调，避免频繁 setState 导致卡顿
-        cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-          const nextId = visible.target.id;
-          setActiveId((prev) => (prev === nextId ? prev : nextId));
-        });
-      },
-      {
-        root: null,
-        // 让“靠近顶部的标题”更容易成为 active
-        rootMargin: "-15% 0px -70% 0px",
-        threshold: [0.05, 0.15, 0.3, 0.6],
+      // 找到“已经滚过顶部”的最后一个标题（最常见的目录高亮逻辑）
+      let current = items[0].id;
+
+      for (const el of items) {
+        const top = el.getBoundingClientRect().top;
+        if (top - OFFSET <= 0) current = el.id;
+        else break; // 后面的更靠下，不需要看了
       }
-    );
 
-    observerRef.current = io;
+      setActiveId((prev) => (prev === current ? prev : current));
+    };
 
-    // 关键：等 Markdown 渲染到 DOM 后再绑定 observe
-    const bind = () => {
-      toc.forEach(({ id }) => {
-        const el = document.getElementById(id);
-        if (el) io.observe(el);
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        getActive();
+        ticking = false;
       });
     };
 
-    // 双保险：requestAnimationFrame + setTimeout
-    const t = setTimeout(() => {
-      requestAnimationFrame(bind);
-    }, 0);
+    // 初次进入先算一次
+    getActive();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
 
     return () => {
-      clearTimeout(t);
-      cancelAnimationFrame(rafId);
-      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, [toc]);
 
