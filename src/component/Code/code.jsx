@@ -17,8 +17,10 @@ export default function Code({ children, ...props }) {
   }, [copied]);
 
   useEffect(() => {
-    setLanguage(props["className"].replace("lang-", ""));
-  }, []);
+    if (!props.className) return;
+    const m = props.className.match(/language-(\w+)/);
+    if (m) setLanguage(m[1]);
+  }, [props.className]);
 
   const handleCopy = async () => {
     try {

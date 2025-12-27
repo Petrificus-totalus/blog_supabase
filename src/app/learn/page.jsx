@@ -1,51 +1,12 @@
 "use client";
-
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./notes.module.css";
 import { supabase } from "@/supabaseClient";
+import { slugify, formatDate } from "@/lib/util";
+import { PRIMARY_TABS, SUB_TABS, TAG_STYLE } from "@/lib/constant";
 
 const PAGE_SIZE = 6;
-
-/** 你写死的标签体系：一级 -> 二级 */
-const PRIMARY_TABS = ["All", "Algorithm", "Data Structure", "CSS", "JS"];
-
-const SUB_TABS = {
-  Algorithm: [
-    "Greedy",
-    "Backtracking",
-    "DynamicP",
-    "Two Pointers",
-    "Binary Search",
-    "Sliding Window",
-  ],
-  "Data Structure": [
-    "Array",
-    "List",
-    "Tree",
-    "Graph",
-    "Stack",
-    "Queue",
-    "Hash Map",
-  ],
-  CSS: ["Grid", "Flex", "Layout", "Animation", "Responsive"],
-  JS: ["Async", "Promise", "Closure", "Array Methods", "DOM"],
-  All: [],
-};
-
-/** 同标签同颜色（你写死） */
-const TAG_STYLE = {
-  Algorithm: "tagGreen",
-  CSS: "tagBlue",
-  JS: "tagPurple",
-};
-
-function formatDate(iso) {
-  const d = new Date(iso);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}-${String(d.getDate()).padStart(2, "0")}`;
-}
 
 function useDebouncedValue(value, delay = 250) {
   const [debounced, setDebounced] = useState(value);
@@ -57,6 +18,7 @@ function useDebouncedValue(value, delay = 250) {
 }
 
 export default function NotesPage() {
+  const router = useRouter();
   const [primary, setPrimary] = useState("All");
   const [sub, setSub] = useState("All"); // 二级选中项（All=不过滤）
   const [page, setPage] = useState(1);
@@ -237,7 +199,16 @@ export default function NotesPage() {
               <div className={styles.empty}>No notes</div>
             ) : (
               notes.map((n) => (
-                <article key={n.id} className={styles.card}>
+                <article
+                  key={n.id}
+                  className={styles.card}
+                  onClick={() => router.push(`/learn/${n.id}`)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && router.push(`/learn/${n.id}`)
+                  }
+                >
                   <div className={styles.bar} aria-hidden="true" />
 
                   <div className={styles.body}>
@@ -271,7 +242,7 @@ export default function NotesPage() {
                         <li key={i}>
                           <a
                             className={styles.summaryLink}
-                            href={`/notes/${n.id}#s-${i + 1}`}
+                            href={`/learn/${n.id}#${slugify(t)}`}
                           >
                             {t}
                           </a>
