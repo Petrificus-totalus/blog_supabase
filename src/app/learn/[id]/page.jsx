@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -15,6 +15,9 @@ export default function NoteDetailPage() {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeId, setActiveId] = useState("");
+
+  // 【新增】创建一个锁，防止点击滚动时触发 Scroll 监听器
+  const isClickScrolling = useRef(false);
 
   useEffect(() => {
     let alive = true;
@@ -36,7 +39,7 @@ export default function NoteDetailPage() {
     return () => (alive = false);
   }, [id]);
 
-  /** TOC 直接来自 summary_lines（你这个设计是最优的） */
+  /** TOC Generation */
   const toc = useMemo(
     () =>
       (note?.summary_lines || []).map((t) => ({
@@ -46,7 +49,7 @@ export default function NoteDetailPage() {
     [note?.summary_lines]
   );
 
-  /** scroll + rAF 的目录高亮（稳定方案） */
+  /** scroll + rAF 的目录高亮（稳定方案 + 锁机制） */
   useEffect(() => {
     if (!toc.length) return;
 
@@ -54,6 +57,9 @@ export default function NoteDetailPage() {
     const OFFSET = 110;
 
     const updateActive = () => {
+      // 【修改】如果锁是开着的（正在由于点击而滚动），直接跳过计算
+      if (isClickScrolling.current) return;
+
       const items = toc
         .map(({ id }) => document.getElementById(id))
         .filter(Boolean);
@@ -80,7 +86,7 @@ export default function NoteDetailPage() {
       });
     };
 
-    updateActive();
+    updateActive(); // Initial check
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
@@ -95,16 +101,32 @@ export default function NoteDetailPage() {
     if (!note) return;
     const hash = decodeURIComponent(location.hash.replace("#", ""));
     if (!hash) return;
+
+    // 初始化时也锁一下，防止页面刚加载时的滚动跳动
+    isClickScrolling.current = true;
     setActiveId(hash);
+
     setTimeout(() => {
       document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      // 稍微久一点再解锁
+      setTimeout(() => {
+        isClickScrolling.current = false;
+      }, 1000);
     }, 80);
   }, [note]);
 
   const scrollTo = (id) => {
+    // 【修改】点击开始：上锁
+    isClickScrolling.current = true;
+
     setActiveId(id);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     history.replaceState(null, "", `#${id}`);
+
+    // 【修改】点击结束：延时解锁（1秒通常足够平滑滚动完成）
+    setTimeout(() => {
+      isClickScrolling.current = false;
+    }, 1000);
   };
 
   if (loading) return <div className={styles.loading}>Loading…</div>;
