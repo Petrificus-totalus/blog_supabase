@@ -1,0 +1,64 @@
+/* =========================
+     Content
+     ========================= */
+
+.content {
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 18px;
+  padding: clamp(18px, 2.4vw, 28px);
+
+  font-size: 16px;
+  line-height: 1.85;
+  max-width: 100%;
+  overflow-x: auto;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Headings */
+.h2 {
+  margin-top: 2.4em;
+  font-size: 22px;
+  font-weight: 950;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  scroll-margin-top: 90px;
+}
+
+/* Paragraph */
+.content p {
+  margin: 1em 0;
+}
+
+/* Inline code */
+.codeInline {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.06);
+  white-space: break-spaces;
+}
+
+/* Tables */
+.content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Images */
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* =========================
+           Code block container safety
+           ========================= */
+
+.container,
+.container pre,
+.container code {
+  max-width: 100%;
+  overflow-x: auto;
+}

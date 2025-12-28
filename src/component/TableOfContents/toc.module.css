@@ -1,0 +1,39 @@
+/* =========================
+     TOC
+     ========================= */
+
+.toc {
+  position: sticky;
+  top: 18px;
+  background: rgba(255, 255, 255);
+  border-radius: 18px;
+  padding: 14px;
+  align-self: start;
+}
+
+.tocTitle {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.tocItem {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.tocActive {
+  background: #ffe1c7;
+  color: #7a3f18;
+}
+
+@media (max-width: 980px) {
+  .toc {
+    display: none;
+  }
+}
