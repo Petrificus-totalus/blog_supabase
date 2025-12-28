@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -14,9 +14,7 @@ export default function NoteDetailPage() {
 
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [activeId, setActiveId] = useState("");
-  const observerRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
@@ -30,13 +28,7 @@ export default function NoteDetailPage() {
         .single();
 
       if (!alive) return;
-
-      if (error) {
-        console.error(error);
-        setNote(null);
-      } else {
-        setNote(data);
-      }
+      setNote(error ? null : data);
       setLoading(false);
     }
 
@@ -44,37 +36,36 @@ export default function NoteDetailPage() {
     return () => (alive = false);
   }, [id]);
 
-  const toc = useMemo(() => {
-    return (note?.summary_lines || []).map((text) => ({
-      text,
-      id: slugify(text),
-    }));
-  }, [note?.summary_lines]);
+  /** TOC 直接来自 summary_lines（你这个设计是最优的） */
+  const toc = useMemo(
+    () =>
+      (note?.summary_lines || []).map((t) => ({
+        text: t,
+        id: slugify(t),
+      })),
+    [note?.summary_lines]
+  );
 
-  // 监听滚动，高亮当前 section
+  /** scroll + rAF 的目录高亮（稳定方案） */
   useEffect(() => {
     if (!toc.length) return;
 
     let ticking = false;
+    const OFFSET = 110;
 
-    const getActive = () => {
-      // 找到所有 toc 对应的 h2 元素
+    const updateActive = () => {
       const items = toc
         .map(({ id }) => document.getElementById(id))
         .filter(Boolean);
 
-      if (items.length === 0) return;
+      if (!items.length) return;
 
-      // 顶部偏移（你有 sticky toc/可能还有 header，就给一点缓冲）
-      const OFFSET = 110;
-
-      // 找到“已经滚过顶部”的最后一个标题（最常见的目录高亮逻辑）
       let current = items[0].id;
 
       for (const el of items) {
-        const top = el.getBoundingClientRect().top;
-        if (top - OFFSET <= 0) current = el.id;
-        else break; // 后面的更靠下，不需要看了
+        if (el.getBoundingClientRect().top - OFFSET <= 0) {
+          current = el.id;
+        } else break;
       }
 
       setActiveId((prev) => (prev === current ? prev : current));
@@ -84,14 +75,12 @@ export default function NoteDetailPage() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        getActive();
+        updateActive();
         ticking = false;
       });
     };
 
-    // 初次进入先算一次
-    getActive();
-
+    updateActive();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
@@ -101,29 +90,20 @@ export default function NoteDetailPage() {
     };
   }, [toc]);
 
-  // 初次进入：如果 URL 有 hash，则滚动到对应标题
+  /** hash 进入 */
   useEffect(() => {
     if (!note) return;
-    const hash = decodeURIComponent(window.location.hash || "").replace(
-      "#",
-      ""
-    );
+    const hash = decodeURIComponent(location.hash.replace("#", ""));
     if (!hash) return;
     setActiveId(hash);
-    // 等渲染完再滚
-    const t = setTimeout(() => {
-      const el = document.getElementById(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
     }, 80);
-
-    return () => clearTimeout(t);
   }, [note]);
 
-  const scrollToId = (id) => {
-    setActiveId(id); // ✅ 关键：先高亮
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollTo = (id) => {
+    setActiveId(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     history.replaceState(null, "", `#${id}`);
   };
 
@@ -133,7 +113,7 @@ export default function NoteDetailPage() {
   return (
     <main className={styles.page}>
       <section className={styles.shell}>
-        <div className={styles.header}>
+        <header className={styles.header}>
           <div className={styles.meta}>
             <div className={styles.tags}>
               {(note.tags || []).slice(0, 3).map((t) => (
@@ -144,60 +124,47 @@ export default function NoteDetailPage() {
             </div>
             <time className={styles.date}>{formatDate(note.created_at)}</time>
           </div>
-
           <h1 className={styles.title}>{note.title}</h1>
-        </div>
+        </header>
 
         <div className={styles.layout}>
           {/* TOC */}
           <aside className={styles.toc}>
             <div className={styles.tocTitle}>On this page</div>
-            {toc.length === 0 ? (
-              <div className={styles.tocEmpty}>No headings</div>
-            ) : (
-              toc.map((h) => (
-                <button
-                  key={h.id}
-                  className={`${styles.tocItem} ${
-                    activeId === h.id ? styles.tocActive : ""
-                  }`}
-                  onClick={() => scrollToId(h.id)}
-                >
-                  {h.text}
-                </button>
-              ))
-            )}
+            {toc.map((h) => (
+              <button
+                key={h.id}
+                className={`${styles.tocItem} ${
+                  activeId === h.id ? styles.tocActive : ""
+                }`}
+                onClick={() => scrollTo(h.id)}
+              >
+                {h.text}
+              </button>
+            ))}
           </aside>
 
-          {/* Markdown */}
+          {/* Content */}
           <article className={styles.content}>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
                 h2: ({ children }) => {
                   const text = String(children);
-                  const id = slugify(text);
                   return (
-                    <h2 id={id} className={styles.h2}>
+                    <h2 id={slugify(text)} className={styles.h2}>
                       {children}
                     </h2>
                   );
                 },
-
-                code: ({ inline, className, children }) => {
-                  if (inline) {
-                    return (
-                      <code className={styles.codeInline}>{children}</code>
-                    );
-                  }
-
-                  // ✅ 多行代码块 → 走你自己的 Code 组件
-                  return (
+                code: ({ inline, className, children }) =>
+                  inline ? (
+                    <code className={styles.codeInline}>{children}</code>
+                  ) : (
                     <Code className={className}>
                       {String(children).replace(/\n$/, "")}
                     </Code>
-                  );
-                },
+                  ),
               }}
             >
               {note.content_md || ""}

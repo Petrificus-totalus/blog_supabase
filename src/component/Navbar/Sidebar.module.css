@@ -1,3 +1,7 @@
+/* =========================
+   Desktop Sidebar
+   ========================= */
+
 .navbarContainer {
   position: fixed;
   top: 0;
@@ -27,8 +31,6 @@
 }
 
 .iconItem {
-  color: #ffffff;
-  font-size: 28px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -37,15 +39,15 @@
   width: 45px;
   height: 45px;
   border-radius: 12px;
-  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+  padding: 6px;
   background: radial-gradient(
     circle at 30% 30%,
-    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.12),
     transparent 70%
   );
-  padding: 6px;
-  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.25));
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
   animation: pulse 4s ease-in-out infinite;
 }
 
@@ -55,7 +57,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
 }
 
@@ -66,18 +68,7 @@
     0 0 20px #49bfb3;
 }
 
-.iconItem:hover {
-  transform: scale(1.2);
-}
-
-.icon {
-  filter: drop-shadow(0 0 5px #49bfb3);
-  transition: all 0.4s ease;
-}
-
-.iconItem:hover .icon {
-  filter: drop-shadow(0 0 10px #f9b625);
-}
+/* Tooltip */
 
 .tooltip {
   position: absolute;
@@ -90,7 +81,7 @@
   opacity: 0;
   transform: translateX(-10px);
   transition: all 0.3s ease;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   pointer-events: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   font-family: "WinkyRoughRegular";
@@ -101,47 +92,130 @@
   transform: translateX(0);
 }
 
-.learnMenu {
-  width: 240px;
-  background-color: #121212;
-  color: #fff;
-  padding: 20px;
-  animation: slideIn 0.3s ease-out;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.4);
+/* =========================
+     Mobile Burger Button
+     ========================= */
+
+.burger {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 20, 30, 0.92);
+  border: none;
+  z-index: 200;
+  cursor: pointer;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
-.learnItem {
-  display: block;
-  text-decoration: none;
-  color: #ccc;
-  margin-bottom: 20px;
-  transition: all 0.2s ease-in-out;
+.burger span {
+  width: 22px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
-.learnItem:hover {
-  transform: translateX(5px);
-  color: #49bfb3;
+.burger.open span:nth-child(1) {
+  transform: rotate(45deg) translateY(6px);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-6px);
 }
 
-.learnItem h4 {
-  margin: 0 0 6px 0;
-  font-size: 16px;
-  color: #f9b625;
+/* =========================
+     Overlay & Circle Expand
+     ========================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
 }
 
-.learnItem p {
-  margin: 0;
-  font-size: 14px;
-  color: #aaa;
+.overlayBg {
+  position: absolute;
+  left: var(--burger-x);
+  top: var(--burger-y);
+  width: 30px;
+  height: 30px;
+  background: rgba(20, 20, 30, 0.96);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: expandCircle 0.4s ease-out forwards;
 }
 
-@keyframes slideIn {
+.overlayBg.shrink {
+  animation: shrinkCircle 0.4s ease-in forwards;
+}
+
+@keyframes expandCircle {
+  to {
+    transform: scale(80);
+  }
+}
+
+@keyframes shrinkCircle {
   from {
-    transform: translateX(-20px);
-    opacity: 0;
+    transform: scale(80);
   }
   to {
-    transform: translateX(0);
+    transform: scale(0);
+  }
+}
+
+/* =========================
+     Overlay Menu (Mobile)
+     ========================= */
+
+.overlayMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.overlayMenu a {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: white;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.4s ease forwards;
+}
+
+@keyframes slideUp {
+  to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+     Responsive Rules
+     ========================= */
+
+@media (max-width: 768px) {
+  .navbarContainer {
+    display: none;
+  }
+
+  .burger {
+    display: flex;
   }
 }

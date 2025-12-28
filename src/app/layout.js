@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <VerticalNavbar />
-        <main style={{ marginLeft: "60px" }}>{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );
