@@ -1,0 +1,58 @@
+/* 可自定义配色：底色 & 填充色 */
+.scrollTop {
+  --color-base: grey; /* 未填充部分 */
+  --color-fill: #000; /* 已填充部分 */
+  --pct: 0%; /* JS 会实时更新为 0%~100% */
+
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 30px;
+  color: #fff;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+
+  /* 关键：用线性渐变按百分比从上到下填充 */
+  background: linear-gradient(
+    to bottom,
+    var(--color-fill) 0%,
+    var(--color-fill) var(--pct),
+    var(--color-base) var(--pct),
+    var(--color-base) 100%
+  );
+}
+
+.scrollTop:hover,
+.scrollTop:focus-visible {
+  outline: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+/* 平板与大手机（≤768px）：稍小、边距更紧 */
+@media (max-width: 768px) {
+  .scrollTop {
+    right: 20px;
+    bottom: 20px;
+    width: 56px;
+    height: 56px;
+    font-size: 26px; /* 箭头略小一点 */
+  }
+}
+
+/* 小手机（≤480px）：最小仍≥44px 可点 */
+@media (max-width: 480px) {
+  .scrollTop {
+    right: 16px;
+    bottom: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+}
