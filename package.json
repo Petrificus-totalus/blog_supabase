@@ -13,7 +13,7 @@
     "@react-three/fiber": "^9.1.2",
     "@supabase/supabase-js": "^2.49.1",
     "antd": "^5.24.9",
-    "framer-motion": "^12.9.2",
+    "framer-motion": "^12.23.26",
     "markdown-to-jsx": "^7.7.4",
     "moment": "^2.30.1",
     "next": "15.2.8",
@@ -24,9 +24,7 @@
     "react-markdown": "^10.1.0",
     "react-simple-typewriter": "^5.0.1",
     "react-syntax-highlighter": "^15.6.1",
-    "react-tsparticles": "^2.9.3",
     "rehype-slug": "^6.0.0",
-    "remark-gfm": "^4.0.1",
-    "tsparticles": "^2.9.3"
+    "remark-gfm": "^4.0.1"
   }
 }

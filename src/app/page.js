@@ -1,16 +1,15 @@
 "use client";
 
-import ParticlesBackground from "./ParticlesBackground";
+import BookSection from "@/component/Book/BookSection";
 import Section from "./Section";
 import styles from "./page.module.css";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
+import Portfolio from "@/component/Portfolio/Portfolio";
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      <ParticlesBackground />
-
       <main className={styles.main}>
         <motion.div
           className={styles.hero}
@@ -36,17 +35,11 @@ export default function Home() {
             Explore My World
           </a>
         </motion.div>
-
-        <Section id="learn" title="My Learning Journey">
-          <p>My Learning Journey...</p>
-        </Section>
+        <BookSection />
+        <Portfolio />
 
         <Section title="My Cooking">
           <p>My Cooking...</p>
-        </Section>
-
-        <Section title="My Projects">
-          <p>My Projects...</p>
         </Section>
 
         {/* 花艺页面 */}

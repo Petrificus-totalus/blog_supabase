@@ -1,59 +1,94 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
-import { FaArrowUp } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import styles from "./scroll.module.css";
 
 export default function ScrollToTop() {
-  const [visible, setVisible] = useState(false);
-  const [pct, setPct] = useState(0); // 0~100
-  const rafRef = useRef(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  // 百分比文字
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
-    const calc = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      const y = window.scrollY || doc.scrollTop || 0;
-      const ratio = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
-
-      setPct(Math.round(ratio * 100));
-      setVisible(y > 16);
+    const update = (v) => {
+      const p = Math.round(v * 100);
+      setPercentage(p);
+      setIsVisible(v > 0.005);
     };
 
-    const onScroll = () => {
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = 0;
-        calc();
-      });
-    };
+    // 初始化一次（避免首次不显示/不更新）
+    update(scrollYProgress.get());
 
-    calc();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    const unsubscribe = scrollYProgress.on("change", update);
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  if (!visible) return null;
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <button
-      className={styles.scrollTop}
-      style={{ ["--pct"]: `${pct}%` }}
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label={`Scroll to top (progress ${pct}%)`}
-      title={`Scroll progress: ${pct}%`}
-      type="button"
-    >
-      <span className={styles.inner}>
-        <FaArrowUp className={styles.icon} />
-        <span className={styles.pct}>{pct}%</span>
-      </span>
-    </button>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.5, y: 20 }}
+          className={styles.wrap}
+        >
+          <motion.button
+            type="button"
+            onClick={scrollToTop}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            className={styles.btn}
+            aria-label="Scroll to top"
+          >
+            {/* 玻璃背景环 */}
+            <div className={styles.glass} />
+
+            {/* 进度环 */}
+            <svg className={styles.ring} viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="30" className={styles.ringTrack} />
+              <motion.circle
+                cx="32"
+                cy="32"
+                r="30"
+                className={styles.ringProgress}
+                // pathLength=1 时，strokeDasharray 用 1 更方便
+                pathLength={1}
+                style={{ pathLength: scrollYProgress }}
+              />
+            </svg>
+
+            {/* 内容 */}
+            <div className={styles.inner}>
+              <motion.svg
+                className={styles.arrow}
+                animate={{ y: [0, -2, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3"
+                  d="M5 15l7-7 7 7"
+                />
+              </motion.svg>
+
+              <span className={styles.percent}>{percentage}%</span>
+            </div>
+
+            {/* hover 外扩光晕 */}
+            <div className={styles.glow} />
+          </motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

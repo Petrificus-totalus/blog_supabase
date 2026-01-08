@@ -1,0 +1,509 @@
+/* 书籍部分 */
+.book-section-container {
+  position: relative;
+  height: 500vh;
+  width: 100%;
+  background-color: #020617;
+  overflow: visible;
+}
+
+.book-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.book-atmosphere {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #020617, #0f172a, #020617);
+}
+
+.book-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(251, 191, 36, 0.05) 0%,
+    transparent 50%
+  );
+}
+
+/* 粒子动画 */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.particle-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+/* 书籍容器 */
+.book-container {
+  position: relative;
+  width: 900px;
+  height: 600px;
+  perspective: 2500px;
+  z-index: 20;
+}
+
+.book-inner {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
+}
+
+/* 左侧静态封面 */
+.book-left-cover {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background-color: #1a1410;
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.book-left-cover-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, #3d2b1f, #1a1410);
+  opacity: 0.9;
+}
+
+.book-spine-shadow {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2rem;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.4), transparent);
+}
+
+.book-left-page {
+  position: absolute;
+  inset: 0.25rem;
+  border-top-left-radius: 0.5rem;
+  background-color: #f8f5f0;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  opacity: 1;
+}
+
+.book-left-page-content {
+  height: 100%;
+  border: 1px solid rgba(180, 83, 9, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0.4;
+}
+
+.book-toc-title {
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #78350f;
+}
+
+.book-toc-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.book-toc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(180, 83, 9, 0.05);
+  padding-bottom: 0.25rem;
+}
+
+.book-toc-line {
+  height: 0.5rem;
+  background-color: rgba(180, 83, 9, 0.1);
+  border-radius: 0.25rem;
+}
+
+.book-toc-line-long {
+  width: 6rem;
+}
+
+.book-toc-line-short {
+  width: 2rem;
+}
+
+.book-library-text {
+  font-size: 10px;
+  font-family: "Cinzel", serif;
+  color: rgba(180, 83, 9, 0.3);
+}
+
+/* 页面组件 */
+.page-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  cursor: default;
+  transform-origin: left center;
+}
+
+.page-front {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem;
+  border-left: 1px solid rgba(180, 83, 9, 0.1);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.page-front-cover {
+  background: linear-gradient(to bottom right, #4a3528, #2a1e16);
+  color: #fef3c7;
+}
+
+.page-front-normal {
+  background-color: #f8f5f0;
+  color: #1e293b;
+}
+
+.page-texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+}
+
+.page-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-cover-content {
+  text-align: center;
+  border: 2px solid rgba(245, 158, 11, 0.2);
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(1px);
+}
+
+.page-cover-icon {
+  width: 6rem;
+  height: 6rem;
+  border: 2px solid rgba(245, 158, 11, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-cover-icon-text {
+  font-family: "Cinzel", serif;
+  font-size: 2.25rem;
+  color: #f59e0b;
+}
+
+.page-cover-title {
+  font-family: "Cinzel", serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.05em;
+  background: linear-gradient(to bottom, #fde68a, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-cover-divider {
+  width: 5rem;
+  height: 2px;
+  background-color: rgba(245, 158, 11, 0.3);
+  margin-bottom: 2rem;
+}
+
+.page-cover-subtitle {
+  font-family: "EB Garamond", serif;
+  font-style: italic;
+  font-size: 1.25rem;
+  color: rgba(254, 243, 199, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.page-normal-content {
+  flex: 1;
+  overflow: visible;
+}
+
+.page-title {
+  font-family: "Cinzel", serif;
+  font-size: 1.875rem;
+  margin-bottom: 1.5rem;
+  color: rgba(180, 83, 9, 0.8);
+  letter-spacing: -0.025em;
+}
+
+.page-title-divider {
+  width: 3rem;
+  height: 1px;
+  background-color: rgba(180, 83, 9, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+.page-text {
+  font-family: "EB Garamond", serif;
+  font-size: 1.25rem;
+  line-height: 1.75;
+  color: #334155;
+  text-align: justify;
+}
+
+.page-text::first-letter {
+  font-size: 3.75rem;
+  font-family: "Cinzel", serif;
+  color: #92400e;
+  margin-right: 0.75rem;
+  float: left;
+  line-height: 1;
+}
+
+.page-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  color: rgba(180, 83, 9, 0.4);
+}
+
+.page-highlight {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* 页面背面 */
+.page-back {
+  position: absolute;
+  inset: 0;
+  background-color: #f0ede4;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-right: 1px solid rgba(180, 83, 9, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transform: rotateY(180deg);
+}
+
+.page-back-content {
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
+}
+
+.page-back-ghost {
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  user-select: none;
+  transform: rotate(1deg);
+}
+
+.page-back-ghost-line {
+  height: 0.75rem;
+  background-color: #020617;
+  border-radius: 9999px;
+}
+
+/* 右侧固定页面 */
+.book-right-page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #f8f5f0;
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(180, 83, 9, 0.1);
+  overflow: hidden;
+}
+
+.book-right-page-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-right-page-stack {
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  width: 1rem;
+  height: 100%;
+  display: flex;
+}
+
+.book-right-page-stack-item {
+  width: 100%;
+  height: 100%;
+  background-color: #ebe7de;
+  border-top: 1px solid rgba(180, 83, 9, 0.1);
+  border-bottom: 1px solid rgba(180, 83, 9, 0.1);
+  border-right: 1px solid rgba(180, 83, 9, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.book-right-page-stack-item-2 {
+  width: 0.5rem;
+  height: 100%;
+  background-color: #e3dfd4;
+  border-top: 1px solid rgba(180, 83, 9, 0.1);
+  border-bottom: 1px solid rgba(180, 83, 9, 0.1);
+  border-right: 1px solid rgba(180, 83, 9, 0.1);
+  margin-left: -0.25rem;
+}
+
+/* 灯光叠加 */
+.book-lighting {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(2, 6, 23, 0.8),
+    transparent,
+    rgba(2, 6, 23, 0.6)
+  );
+  z-index: 30;
+}
+
+/* 指示器 */
+.book-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 40;
+}
+
+.book-indicator-text {
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  color: rgba(245, 158, 11, 0.8);
+  letter-spacing: 0.5em;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.book-indicator-line {
+  width: 1px;
+  height: 4rem;
+  background: linear-gradient(to bottom, rgba(245, 158, 11, 0.8), transparent);
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.625rem);
+  }
+}
+
+.book-indicator-line-animated {
+  animation: bounce 2s infinite;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .book-container {
+    width: 100%;
+    max-width: 90vw;
+    height: 60vh;
+  }
+
+  .intro-title {
+    font-size: 3rem;
+  }
+
+  .intro-quote {
+    font-size: 1.25rem;
+  }
+}
