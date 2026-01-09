@@ -245,20 +245,53 @@
 }
 
 .cardSpecLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
   font-size: 10px;
   font-family: "Space Mono", monospace;
-  letter-spacing: 0.5em;
-  color: #60a5fa;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  color: rgba(210, 235, 255, 0.92);
+
+  background: rgba(20, 35, 60, 0.28);
+  border: 1px solid rgba(120, 190, 255, 0.26);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+
+  /* 微微光晕，提升暗背景可读性 */
+  text-shadow: 0 0 14px rgba(120, 190, 255, 0.25);
 }
 
 .cardTitle {
-  font-size: 30px;
+  font-size: clamp(32px, 7vw, 54px);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin: 8px 0 0 0;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+
+  /* 核心：不填充，只有描边 */
+  color: transparent;
+  -webkit-text-stroke: 1.35px rgba(235, 245, 255, 0.55);
+
+  /* 让描边更“电影感”，像在暗部发光 */
+  text-shadow: 0 0 22px rgba(120, 190, 255, 0.22),
+    0 10px 28px rgba(0, 0, 0, 0.55);
+
+  margin: 10px 0 0 0;
   font-style: italic;
+
+  /* 小技巧：提升抗锯齿观感 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 @media (min-width: 768px) {
@@ -268,19 +301,87 @@
 }
 
 .cardDescription {
-  font-size: 10px;
-  color: #d4d4d8;
-  max-width: 90%;
-  font-weight: 300;
-  line-height: 1.6;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-  margin: 8px 0 0 0;
-}
+  margin-top: 12px;
 
+  font-size: 12px;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+
+  color: rgba(235, 240, 248, 0.78);
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+
+  max-width: 92%;
+}
 @media (min-width: 768px) {
   .cardDescription {
     font-size: 12px;
+  }
+}
+
+.bgHeadline {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 1; /* 在背景之上，卡片之下（卡片通常更高 zIndex） */
+}
+
+.bgHeadlineText {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+
+  /* 超大但不压住画面 */
+  font-size: clamp(36px, 6vw, 90px);
+
+  /* 高级：描边字（不填充） */
+  color: transparent;
+  -webkit-text-stroke: 1.1px rgba(235, 245, 255, 0.22);
+
+  /* 微弱氛围光 */
+  text-shadow: 0 0 28px rgba(120, 190, 255, 0.1),
+    0 18px 40px rgba(0, 0, 0, 0.55);
+
+  opacity: 0.9;
+
+  /* 让文字更“漂浮”一点 */
+  transform: translateY(-6%);
+}
+/* =========================
+   📱 Mobile: bgHeadline 在顶部
+========================= */
+@media (max-width: 768px) {
+  .bgHeadline {
+    inset: auto;
+    top: 60px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    height: auto;
+    padding: 0 16px;
+    z-index: 6;
+  }
+
+  .bgHeadlineText {
+    font-size: 24px;
+    letter-spacing: 0.32em;
+    line-height: 1;
+
+    color: rgba(210, 230, 255, 0.9);
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+    opacity: 0.75;
+    transform: none;
+
+    /* 更像杂志副标题 */
+    font-family: "Space Mono", monospace;
+    text-transform: uppercase;
   }
 }
 
@@ -373,6 +474,7 @@
   margin: 0 0 6px 0;
   text-transform: uppercase;
   letter-spacing: -0.01em;
+  color: #fff;
 }
 
 .mobileDesc {
@@ -381,6 +483,7 @@
   line-height: 1.55;
   opacity: 0.85;
   max-width: 100%;
+  color: #fff;
 }
 
 @keyframes mobileFadeIn {

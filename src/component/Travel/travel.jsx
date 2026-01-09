@@ -39,8 +39,8 @@ const ImageCardDesktop = ({ item, index, total, scrollProgress }) => {
 
   const cardSize =
     item.orientation === "landscape"
-      ? { width: "650px", height: "450px" }
-      : { width: "450px", height: "650px" };
+      ? { width: "820px", height: "560px" } // ⬅️ 原来 650*450
+      : { width: "560px", height: "820px" };
 
   const x = useTransform(
     springPos,
@@ -125,7 +125,7 @@ const ImageCardDesktop = ({ item, index, total, scrollProgress }) => {
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              {item.orientation.toUpperCase()}
+              {item.location.toUpperCase()}
             </motion.span>
             <h3 className={styles.cardTitle}>{item.title}</h3>
           </div>
@@ -171,7 +171,7 @@ const ImageCardMobileSimple = ({ item, visibleKey }) => {
         <div className={styles.mobileOverlay}>
           <div className={styles.mobileSpecRow}>
             <span className={styles.mobileSpec}>
-              {item.orientation.toUpperCase()}
+              {item.location.toUpperCase()}
             </span>
             <span className={styles.mobileIndexHint}>{item.id}</span>
           </div>
@@ -258,6 +258,11 @@ export default function Travel() {
         ].join(" ")}
       >
         <div className={styles.bgGradient} />
+        <div className={styles.bgHeadline} aria-hidden="true">
+          <span className={styles.bgHeadlineText}>
+            Beautiful places I have been
+          </span>
+        </div>
 
         {!isMobile && (
           <div className={styles.bgLines}>
