@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import Portfolio from "@/component/Portfolio/Portfolio";
+import Travel from "@/component/Travel/travel";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
         </motion.div>
         <BookSection />
         <Portfolio />
+        <Travel />
 
         <Section title="My Cooking">
           <p>My Cooking...</p>

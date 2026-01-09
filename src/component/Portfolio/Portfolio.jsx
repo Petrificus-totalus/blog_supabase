@@ -57,7 +57,7 @@ const Portfolio = () => {
             <h1 className="header-title-large">CREATIVE</h1>
             <div className="header-content">
               <h2 className="header-title">
-                HORIZON <span className="header-title-accent">LABS</span>
+                My <span className="header-title-accent">Projects</span>
               </h2>
               <p className="header-subtitle">Portfolio Showcase 2024</p>
               <div className="scroll-indicator-container">
