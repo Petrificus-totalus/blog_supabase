@@ -117,8 +117,12 @@ const BookSection = () => {
               index={0}
               progress={smoothProgress}
               range={[0.1, 0.3]}
-              content={{ title: "Chronicle of Aether", text: "", pageNum: 0 }}
-              isCover
+              content={{
+                title: "Kim's learning notes",
+                text: "Learning is a lifelong journey. Here I record my learning notes — to reflect, grow, and keep moving forward.",
+                pageNum: 0,
+              }}
+              // isCover
             />
 
             <Page

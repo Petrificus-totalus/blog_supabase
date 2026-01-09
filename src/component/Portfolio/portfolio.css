@@ -341,7 +341,7 @@
 }
 
 .portfolio-card-description {
-  color: #9ca3af;
+  color: #ccd7ea;
   font-size: 1.125rem;
   max-width: 32rem;
   line-height: 1.75;
@@ -462,6 +462,7 @@
 
 .portfolio-card-mobile {
   position: absolute;
+  /* padding: 5%; */
   bottom: -10%;
   right: -5%;
   width: 40%;

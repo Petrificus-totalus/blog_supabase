@@ -6,18 +6,26 @@ import styles from "./Sidebar.module.css";
 
 const MENU = [
   { href: "/", icon: "/logo.jpg", label: "Home :)", sub: "Back to homepage" },
-  {
-    href: "/flower",
-    icon: "/flower.png",
-    label: "Beautiful flowers I delivered",
-    sub: "Gallery & stories",
-  },
+  { href: "/learn", icon: "/book.png", label: "Live and learn", sub: "Notes" },
   {
     href: "/projects",
     icon: "/projects.png",
     label: "Websites I developed",
     sub: "Portfolio & cases",
   },
+  {
+    href: "/travel",
+    icon: "/travel.png",
+    label: "Beautiful places I have been",
+    sub: "Portfolio & cases",
+  },
+  {
+    href: "/flower",
+    icon: "/flower.png",
+    label: "Beautiful flowers I delivered",
+    sub: "Gallery & stories",
+  },
+
   {
     href: "/cook",
     icon: "/cook.png",
@@ -30,7 +38,6 @@ const MENU = [
     label: "Where all my money goes",
     sub: "Expenses & tracking",
   },
-  { href: "/learn", icon: "/book.png", label: "Live and learn", sub: "Notes" },
 ];
 
 export default function VerticalNavbar() {
