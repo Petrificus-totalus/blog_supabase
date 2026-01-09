@@ -1,0 +1,406 @@
+/* ===== 基础 ===== */
+.container {
+  position: relative;
+  background: #010101;
+  width: 100%;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.worldContainer {
+  perspective: 1500px;
+  perspective-origin: 50% 50%;
+}
+
+.worldContainerMobile {
+  perspective: none;
+}
+
+.gpuLayer {
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
+
+.group {
+}
+
+/* ===== 背景 ===== */
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(10, 12, 25, 1) 0%,
+    rgba(0, 0, 0, 1) 90%
+  );
+}
+
+.bgLines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.bgLine1 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #3b82f6;
+  filter: blur(4px);
+  transform: rotate(-12deg);
+}
+
+.bgLine2 {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #60a5fa;
+  filter: blur(8px);
+  transform: rotate(6deg);
+}
+
+/* ===== HUD（桌面） ===== */
+.hudOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  padding: 24px;
+}
+
+@media (min-width: 768px) {
+  .hudOverlay {
+    padding: 40px;
+  }
+}
+
+.progressContainer {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .progressContainer {
+    right: 40px;
+  }
+}
+
+.progressLabel {
+  font-size: 9px;
+  font-family: "Space Mono", monospace;
+  opacity: 0.4;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transform: rotate(-90deg);
+  margin-bottom: 32px;
+}
+
+.progressBarWrapper {
+  height: 256px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.progressBar {
+  position: absolute;
+  inset: 0;
+  background: #3b82f6;
+  box-shadow: 0 0 20px #3b82f6;
+  transform-origin: top;
+}
+
+.progressNumber {
+  font-size: 12px;
+  font-family: "Space Mono", monospace;
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+/* ===== Stage ===== */
+.stageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.stageContainerMobile {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+/* =========================
+   Desktop card styles（保留）
+========================= */
+.imageCard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.imageCardWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.6);
+  background: #18181b;
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(0);
+  transition: transform 1000ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .cardImg {
+    transform: scale(1.08);
+  }
+}
+
+.decorLineTop {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 24px;
+  height: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.decorLineBottom {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glowLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(59, 130, 246, 0.3),
+    transparent
+  );
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.4),
+    transparent
+  );
+}
+
+@media (min-width: 768px) {
+  .cardOverlay {
+    padding: 48px;
+  }
+}
+
+.cardSpec {
+  margin-bottom: 16px;
+}
+
+.cardSpecLabel {
+  font-size: 10px;
+  font-family: "Space Mono", monospace;
+  letter-spacing: 0.5em;
+  color: #60a5fa;
+}
+
+.cardTitle {
+  font-size: 30px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 8px 0 0 0;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  .cardTitle {
+    font-size: 48px;
+  }
+}
+
+.cardDescription {
+  font-size: 10px;
+  color: #d4d4d8;
+  max-width: 90%;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  margin: 8px 0 0 0;
+}
+
+@media (min-width: 768px) {
+  .cardDescription {
+    font-size: 12px;
+  }
+}
+
+.ambientGlow {
+  position: absolute;
+  inset: -80px;
+  background: rgba(59, 130, 246, 0.1);
+  filter: blur(150px);
+  z-index: -10;
+  border-radius: 50%;
+}
+
+/* =========================
+   ✅ Mobile Ultra Simple
+   - 只有一张卡
+   - CSS 轻过渡
+========================= */
+.mobileCard {
+  width: min(92vw, 520px);
+  animation: mobileFadeIn 220ms ease-out;
+  transform: translateZ(0);
+}
+
+.mobileLandscape {
+  aspect-ratio: 16 / 10;
+}
+
+.mobilePortrait {
+  aspect-ratio: 3 / 4.2;
+}
+
+.mobileCardWrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0b0b0e;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+}
+
+.mobileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mobileOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92),
+    rgba(0, 0, 0, 0.25),
+    transparent
+  );
+}
+
+.mobileSpecRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.mobileSpec {
+  font-size: 10px;
+  font-family: "Space Mono", monospace;
+  letter-spacing: 0.35em;
+  color: #60a5fa;
+  opacity: 0.95;
+}
+
+.mobileIndexHint {
+  font-size: 10px;
+  font-family: "Space Mono", monospace;
+  opacity: 0.5;
+}
+
+.mobileTitle {
+  font-size: 18px;
+  line-height: 1.1;
+  font-weight: 900;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.mobileDesc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  opacity: 0.85;
+  max-width: 100%;
+}
+
+@keyframes mobileFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 手机端隐藏重元素 */
+@media (max-width: 768px) {
+  .decorLineTop,
+  .decorLineBottom,
+  .glowLine,
+  .ambientGlow,
+  .bgLines {
+    display: none !important;
+  }
+}
