@@ -5,7 +5,7 @@ export const items = [
     location: "Circular Quay Train station, Sydney",
     orientation: "portrait",
     description:
-      "A fleeting moment captured in the silence of nature's morning breath.",
+      "My first day in Australia — joyful at the most beautiful train station.",
     title: "start",
   },
   {
@@ -14,7 +14,7 @@ export const items = [
     location: "Mount Ainslie Lookout, Canberra",
     orientation: "portrait",
     description:
-      "Finding peace in the vast emptiness between the mountains and the sky.",
+      "My second hometown — where I completed my studies and learned what it means to strive.",
     title: "Second Home",
   },
   {
@@ -22,60 +22,43 @@ export const items = [
     url: "/travel/bali.jpg",
     orientation: "portrait",
     location: "Bali Island",
-    description: "The perfect balance of geometric shadows in a chaotic world.",
+    description: "A vibrant little island.",
     title: "Mysterious Island",
   },
   {
     id: "4",
-    url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1000",
-    location: "Horizon",
+    url: "/travel/Whitsunday.jpg",
+    location: "Whitsunday Islands, Queensland",
+    orientation: "landscape",
     description:
       "Where the edge of the world meets the beginning of our dreams.",
-    title: "portrait",
+    title: "Silky-soft sands",
   },
   {
     id: "5",
     url: "/travel/stanley.jpg",
     location: "Stanley, Tasmania",
+    orientation: "portrait",
     description:
-      "Tracing back the roots of light into the dark depths of the forest.",
+      "When the sun broke through for a moment, the scene felt like an oil painting, calm and harmonious.",
     title: "Painterly Village",
   },
   {
     id: "6",
-    url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=1000",
-    location: "Fluidity",
+    url: "/travel/philip.jpg",
+    location: "Phillip Island, Victoria",
+    orientation: "portrait",
     description:
-      "The constant movement of thoughts flowing through a digital mind.",
-    title: "portrait",
+      "Far from the city's noise, like the edge of the world — home to the world's smallest penguins.",
+    title: "Fairy penguin",
   },
   {
     id: "7",
-    url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200",
-    location: "Pinnacle",
+    url: "/travel/gc.jpg",
+    location: "Movie World, Gold Coast",
+    orientation: "portrait",
     description:
-      "Standing at the threshold of achievement where oxygen is thin.",
-    title: "landscape",
-  },
-  {
-    id: "8",
-    url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=1000",
-    location: "Reflect",
-    description: "Seeing ourselves in the stillness of the water at twilight.",
-    title: "portrait",
-  },
-  {
-    id: "9",
-    url: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=1200",
-    location: "Alpine",
-    description: "The crisp, clean edges of life lived above the clouds.",
-    title: "landscape",
-  },
-  {
-    id: "10",
-    url: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&q=80&w=1000",
-    location: "Timeless",
-    description: "A legacy of light that persists long after the sun has set.",
-    title: "portrait",
+      "A city full of energy — riding the fastest roller coaster in the Southern Hemisphere.",
+    title: "Fast & Furious",
   },
 ];
